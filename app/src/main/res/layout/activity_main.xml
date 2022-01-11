@@ -12,10 +12,33 @@
         android:layout_height="match_parent"
         mapbox:mapbox_cameraTargetLat = "52.4064"
         mapbox:mapbox_cameraTargetLng = "16.9252"
-        mapbox:mapbox_styleUrl="mapbox://styles/grzesiupia/cky4du6yu1bx614muh81n5ja5"
+        mapbox:mapbox_styleUrl="mapbox://styles/grzesiupia/ckyaelkrcep4514o6yr88azaf"
         mapbox:mapbox_cameraZoom="12"
+        >
+
+    </com.mapbox.mapboxsdk.maps.MapView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="FULL_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         />
 
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:enabled="true"
+        android:text="@string/start_navigating"
+        android:textColor="@color/white"
+        mapbox:layout_anchor="@+id/mapView"
+        mapbox:layout_anchorGravity="bottom|center" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
