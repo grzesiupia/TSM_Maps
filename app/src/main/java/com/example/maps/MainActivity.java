@@ -56,6 +56,8 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
+import com.mapbox.services.android.navigation.ui.v5.NavigationView;
+import com.mapbox.services.android.navigation.ui.v5.NavigationViewOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
@@ -103,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate((savedInstanceState));
         mapView.getMapAsync(this);
 
-
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
@@ -116,16 +117,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 if (mInterstitialAd != null) {
-                    NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                            .origin(originPosition)
-                            .destination(destinationPosition)
-                            .shouldSimulateRoute(true)
-                            .build();
-                    NavigationLauncher.startNavigation(MainActivity.this, options);
                     mInterstitialAd.show(MainActivity.this);
                 } else {
                     Log.d(TAG, "The interstitial ad wasn't ready yet.");
-                    Toast.makeText(MainActivity.this, "twojstary", Toast.LENGTH_LONG).show();
                     NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                             .origin(originPosition)
                             .destination(destinationPosition)
@@ -155,6 +149,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             @Override
                             public void onAdDismissedFullScreenContent() {
                                 Log.d(TAG, "The ad was dismissed.");
+                                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                                        .origin(originPosition)
+                                        .destination(destinationPosition)
+                                        .shouldSimulateRoute(true)
+                                        .build();
+                                NavigationLauncher.startNavigation(MainActivity.this, options);
+                                NavigationLauncher.startNavigation(MainActivity.this, options);
                             }
 
                             @Override
