@@ -5,6 +5,7 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 
+import com.google.android.gms.ads.AdLoadCallback;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -115,10 +116,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 if (mInterstitialAd != null) {
+                    NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                            .origin(originPosition)
+                            .destination(destinationPosition)
+                            .shouldSimulateRoute(true)
+                            .build();
+                    NavigationLauncher.startNavigation(MainActivity.this, options);
                     mInterstitialAd.show(MainActivity.this);
                 } else {
                     Log.d(TAG, "The interstitial ad wasn't ready yet.");
-
+                    Toast.makeText(MainActivity.this, "twojstary", Toast.LENGTH_LONG).show();
                     NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                             .origin(originPosition)
                             .destination(destinationPosition)
@@ -132,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void loadBannerAd() {
         AdRequest adRequestBanner = new AdRequest.Builder().build();
-        Toast.makeText(MainActivity.this, adRequestBanner.toString(), Toast.LENGTH_LONG).show();
         adView = findViewById(R.id.adView);
         adView.loadAd(adRequestBanner);
     }
@@ -144,32 +150,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                         mInterstitialAd = interstitialAd;
-                        Toast.makeText(MainActivity.this, "3", Toast.LENGTH_LONG).show();
                         Log.i(TAG, "onAdLoaded");
                         mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
                             @Override
                             public void onAdDismissedFullScreenContent() {
                                 Log.d(TAG, "The ad was dismissed.");
-
-                                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                                        .origin(originPosition)
-                                        .destination(destinationPosition)
-                                        .shouldSimulateRoute(true)
-                                        .build();
-                                NavigationLauncher.startNavigation(MainActivity.this, options);
                             }
 
                             @Override
                             public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                                 Log.d(TAG, "The ad failed to show.");
-                                Toast.makeText(MainActivity.this, "1", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onAdShowedFullScreenContent() {
                                 mInterstitialAd = null;
                                 Log.d(TAG, "The ad was shown.");
-                                Toast.makeText(MainActivity.this, "2", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -177,10 +173,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         Log.i(TAG, loadAdError.getMessage());
                         mInterstitialAd = null;
-                        Toast.makeText(MainActivity.this, "Ad failed", Toast.LENGTH_LONG).show();
                     }
                 });
-        Toast.makeText(MainActivity.this, adRequest.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
